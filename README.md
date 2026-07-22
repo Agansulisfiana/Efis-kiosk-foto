@@ -1,4 +1,4 @@
-# KIOSKID PRO — Kiosk Foto Kartu CR80 / Fargo
+# E-FIS KIOSKID PRO — Kiosk Foto Kartu CR80 / Fargo
 
 Kiosk untuk foto peserta yang otomatis dicetak ke kartu CR80 memakai
 printer Fargo. Layar didesain untuk resolusi **1280×1024**.
