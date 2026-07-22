@@ -1,149 +1,483 @@
-# E-FIS KIOSKID PRO — Kiosk Foto Kartu CR80 / Fargo
+<div align="center">
 
-Kiosk untuk foto peserta yang otomatis dicetak ke kartu CR80 memakai
-printer Fargo. Layar didesain untuk resolusi **1280×1024**.
+# 📸 EFIS Photo Kiosk
 
-## Apa yang diperbaiki dari versi sebelumnya
+**Offline Photo Booth & CR80 Card Printing Application**
 
-1. **Bug utama:** template PNG kamu tidak transparan di area lingkaran
-   foto, jadi setelah foto diambil, gambar template menutupi foto
-   peserta sepenuhnya. Sekarang `app.js` **memproses template secara
-   otomatis** saat dimuat — melubangi area lingkaran lewat
-   `globalCompositeOperation: 'destination-out'` di canvas — sehingga
-   kamu **tidak perlu lagi mengedit file PNG manual** untuk membuat
-   lubang transparan. Cukup pastikan koordinat `CIRCLE` di `app.js`
-   sesuai posisi lingkaran template kamu.
-2. **Tampilan dirombak total** mengikuti referensi yang kamu kirim
-   (gaya "KIOSKID PRO"): navbar gelap dengan status Camera/Printer,
-   panel kamera besar dengan template & panduan wajah langsung
-   ditampilkan di atas live camera, panel "Preview Hasil Kartu"
-   terpisah di kanan, panel status printer (ribbon, suhu, total
-   cetak), pemilih template + tombol unggah template baru.
+A desktop-based photo kiosk application built with **Electron** for capturing photos using a webcam and printing them onto **CR80 cards** using a **Fargo Card Printer**.
 
-## Isi folder
+Designed for self-service kiosks, exhibitions, visitor registration, employee cards, and event photo booths.
+
+![Platform](https://img.shields.io/badge/Platform-Windows-blue)
+![Electron](https://img.shields.io/badge/Electron-31.x-47848F)
+![NodeJS](https://img.shields.io/badge/Node.js-20+-339933)
+![License](https://img.shields.io/badge/License-Internal-red)
+
+</div>
+
+---
+
+# Table of Contents
+
+- Overview
+- Features
+- System Requirements
+- Project Structure
+- Installation
+- Running Development Mode
+- Building Production
+- Offline Deployment
+- Windows Kiosk Configuration
+- Printer Configuration
+- Changing Photo Template
+- Application Flow
+- Troubleshooting
+- Future Roadmap
+- License
+
+---
+
+# Overview
+
+EFIS Photo Kiosk is an Electron-based desktop application developed for self-service photo kiosks.
+
+The application captures photos from a webcam, places them into a predefined template, and prints them directly onto CR80 cards through a Fargo card printer.
+
+The application is designed to work completely **offline**, making it suitable for environments with limited or no internet connection.
+
+Typical use cases include:
+
+- Employee ID Cards
+- Visitor Cards
+- Membership Cards
+- Event Photo Booth
+- School ID Cards
+- Exhibition Registration
+
+---
+
+# Features
+
+✅ Fullscreen Kiosk Interface
+
+✅ Webcam Live Preview
+
+✅ Photo Capture
+
+✅ Photo Template Overlay
+
+✅ CR80 Card Printing
+
+✅ Offline Operation
+
+✅ Electron Desktop Application
+
+✅ Simple HTML, CSS & JavaScript Architecture
+
+---
+
+# System Requirements
+
+## Hardware
+
+- Windows 10 / Windows 11
+- Intel Core i3 or higher
+- 4 GB RAM minimum
+- Webcam
+- Mouse / Touchscreen
+- Fargo Card Printer
+- CR80 PVC Cards
+
+---
+
+## Software
+
+- Node.js 20+
+- npm
+- Electron
+- Fargo Printer Driver
+
+---
+
+# Project Structure
 
 ```
-photo-kiosk/
-├─ index.html
-├─ style.css
-├─ app.js
-├─ assets/template.png     template Dukcapil 2026 (bawaan)
-├─ electron/
-│   ├─ main.js              kiosk window + cetak senyap
-│   └─ preload.js
-├─ package.json
-└─ README.md
+photo-kiosk
+│
+├── assets/
+│   └── template.png
+│
+├── electron/
+│   ├── main.js
+│   └── preload.js
+│
+├── app.js
+├── index.html
+├── style.css
+├── package.json
+└── README.md
 ```
 
-## Cara menjalankan
+### Folder Description
 
-### A. Cepat, uji coba di browser
+| Folder | Description |
+|----------|------------|
+| assets | Image assets and photo templates |
+| electron | Electron Main Process |
+| app.js | Main application logic |
+| index.html | Application UI |
+| style.css | User Interface styling |
+
+---
+
+# Installation
+
+Clone repository
 
 ```bash
-cd photo-kiosk
-npx serve .
+git clone https://github.com/Agansulisfiana/Efis-kiosk-foto.git
 ```
-Buka `http://localhost:3000` di Chrome (kamera perlu `localhost`/`https`),
-lalu `F11` untuk fullscreen.
 
-### B. Sebagai aplikasi kiosk sungguhan (Electron)
+Move into project
 
 ```bash
-cd photo-kiosk
+cd Efis-kiosk-foto
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+# Running Development Mode
+
+```bash
+npm start
+```
+
+The Electron application will launch automatically.
+
+---
+
+# Building Production
+
+Install Electron Builder
+
+```bash
+npm install --save-dev electron-builder
+```
+
+Example package.json
+
+```json
+"scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+}
+```
+
+Build executable
+
+```bash
+npm run build
+```
+
+Output
+
+```
+dist/
+```
+
+The installer (.exe) will be generated inside the **dist** folder.
+
+---
+
+# Offline Deployment
+
+The application is designed to operate without internet access.
+
+Deployment steps:
+
+1. Install Windows.
+
+2. Install Fargo Printer Driver.
+
+3. Install Webcam Driver (if required).
+
+4. Install EFIS Photo Kiosk.
+
+5. Configure Windows Auto Login.
+
+6. Configure Startup Application.
+
+7. Restart Windows.
+
+The kiosk is now ready for operation.
+
+---
+
+# Windows Kiosk Configuration
+
+## Disable Sleep Mode
+
+Settings
+
+```
+Power Options
+```
+
+Configure
+
+- Never Sleep
+- Never Hibernate
+- Never Turn Off Display
+
+---
+
+## Auto Login
+
+Run
+
+```
+netplwiz
+```
+
+Disable
+
+```
+Users must enter a username and password...
+```
+
+Restart Windows.
+
+---
+
+## Auto Start Application
+
+Press
+
+```
+Win + R
+```
+
+Type
+
+```
+shell:startup
+```
+
+Create a shortcut of the application inside this folder.
+
+The application will automatically launch every time Windows starts.
+
+---
+
+## Hide Windows Cursor (Optional)
+
+Suitable for touchscreen kiosks.
+
+Third-party utilities may be used if the cursor should remain hidden during operation.
+
+---
+
+## Recommended Windows Settings
+
+- Disable Windows Update during operation
+- Disable Screen Saver
+- Disable Notification Popups
+- Disable Sleep Mode
+- Auto Login Enabled
+- Taskbar Auto Hide
+- Fullscreen Mode Enabled
+
+---
+
+# Printer Configuration
+
+Supported Card Size
+
+```
+CR80
+
+85.60 mm × 53.98 mm
+```
+
+Supported Printer
+
+- Fargo HDP5600
+- Fargo DTC1250e
+- Fargo DTC1500
+- Fargo DTC4500e
+
+Before using the application:
+
+- Install the official Fargo printer driver.
+- Verify the printer is detected in Windows.
+- Perform a test print.
+
+---
+
+# Changing Photo Template
+
+Default template location
+
+```
+assets/template.png
+```
+
+Replace the image with a new design while keeping the same filename.
+
+Recommended format
+
+```
+PNG
+Transparent Background
+300 DPI
+```
+
+---
+
+# Application Flow
+
+```
+Application Start
+
+        │
+
+        ▼
+
+Camera Preview
+
+        │
+
+        ▼
+
+Capture Photo
+
+        │
+
+        ▼
+
+Merge With Template
+
+        │
+
+        ▼
+
+Preview Result
+
+        │
+
+        ▼
+
+Print CR80 Card
+
+        │
+
+        ▼
+
+Ready For Next User
+```
+
+---
+
+# Troubleshooting
+
+## Camera Not Detected
+
+- Verify webcam connection.
+- Check Windows Camera permissions.
+- Restart the application.
+
+---
+
+## Printer Not Found
+
+- Reinstall Fargo Driver.
+- Verify USB connection.
+- Check Devices and Printers.
+
+---
+
+## Application Won't Start
+
+Run
+
+```bash
 npm install
 npm start
 ```
 
-## Menyesuaikan posisi lingkaran foto
+If the problem persists, delete
 
-Kalau kamu ganti template dengan posisi/ukuran lingkaran foto yang
-beda, ubah di `app.js`:
-
-```js
-const CIRCLE = { cx: 350, cy: 535, r: 178 }; // titik tengah & radius, piksel dalam kanvas 679x1046
+```
+node_modules
 ```
 
-Template lain yang diunggah lewat tombol **Unggah Template** di
-aplikasi juga akan diproses otomatis dengan koordinat lingkaran yang
-sama — jadi kalau posisi lingkarannya beda, sesuaikan `CIRCLE` dulu
-sebelum mengunggah, atau minta saya tambahkan kalibrasi per-template
-kalau kamu butuh banyak template dengan posisi berbeda-beda.
+then reinstall dependencies.
 
-## ⚠️ Soal font (Plus Jakarta Sans / Inter)
+---
 
-Font di-load lewat Google Fonts CDN (`<link>` di `index.html`), jadi
-**butuh koneksi internet** saat aplikasi dibuka pertama kali (setelahnya
-biasanya sudah di-cache browser). Kalau PC kiosk kamu **tidak ada
-internet sama sekali** di lokasi acara:
+## Blank Printing
 
-1. Download file `.woff2` untuk **Plus Jakarta Sans** (600/700/800) dan
-   **Inter** (400/500/600/700) dari fonts.google.com, taruh di
-   `assets/fonts/`.
-2. Ganti `<link>` Google Fonts di `index.html` dengan `@font-face` lokal
-   di awal `style.css`, contoh:
-   ```css
-   @font-face{
-     font-family:"Inter";
-     src:url("assets/fonts/Inter-Regular.woff2") format("woff2");
-     font-weight:400;
-   }
-   ```
-   (ulangi untuk tiap berat font yang dipakai).
+- Verify template exists.
+- Check printer ribbon.
+- Check CR80 card alignment.
 
-## ⚠️ Soal angka di "Status Printer CR80"
+---
 
-Browser **tidak bisa membaca status asli printer** (ribbon %, suhu
-mesin, dsb) — itu keterbatasan Web API, bukan bug. Panel itu saat ini
-menampilkan angka **mock/placeholder**. "Total Cetak" saja yang riil
-(dihitung otomatis setiap kali kamu menekan Cetak, tersimpan di
-`localStorage`).
+# Future Roadmap
 
-Untuk data ribbon/suhu yang asli dari mesin Fargo, dibutuhkan:
-- SDK/driver resmi Fargo yang punya API status (biasanya lewat
-  Windows SDK / DLL), dan
-- sebuah "bridge" native (Node.js addon atau service kecil di
-  Electron main process) yang membaca status itu lalu mengirim ke
-  halaman web lewat IPC — mirip pola `silent-print` yang sudah ada di
-  `electron/main.js`.
+- Multiple Templates
+- QR Code Support
+- Barcode Support
+- Face Detection
+- Face Centering
+- Touch Keyboard
+- Admin Panel
+- Event Configuration
+- Print History
+- Reprint Function
+- Camera Settings
+- Printer Settings
+- Multi-language Support
+- Automatic Updates
 
-Kalau kamu punya SDK Fargo-nya, saya bisa bantu buatkan bridge-nya.
+---
 
-## Setting printer Fargo (CR80)
+# Screenshots
 
-1. Install driver resmi Fargo (misal HDP5600) dari situs HID Global.
-2. Di *Printing Preferences* Windows, set ukuran card **CR80**,
-   orientasi **Portrait**.
-3. Di `electron/main.js`, ganti:
-   ```js
-   const PRINTER_NAME = 'Fargo HDP5600 Card Printer';
-   ```
-   dengan nama persis printer di Windows kamu.
-4. `window.print()` di `app.js` (fungsi `cetakKartu`) masih pakai
-   dialog print biasa — aman untuk tes pertama. Setelah hasil & posisi
-   cetak pas, ganti ke `window.kioskAPI.silentPrint()` supaya tidak
-   ada dialog sama sekali.
+```
+docs/
 
-## Fitur
+home.png
 
-- Live camera + template & panduan wajah ("POSISI WAJAH") ditampilkan
-  langsung di atas kamera untuk framing.
-- Countdown 3 detik + efek flash.
-- Foto otomatis crop ke lingkaran, template (dengan lubang transparan
-  otomatis) ditumpuk di atasnya.
-- Satu tombol Ambil Foto/Ulangi + tombol Cetak.
-- Panel status Camera Online/Offline (real), Printer Ready (mock),
-  Hardware Bridge (mock).
-- Panel status printer: ribbon %, suhu mesin (mock), total cetak (real).
-- Pemilih template + unggah template PNG baru.
-- Auto-save JPG per cetakan (nama file: tanggal + nomor peserta).
-- Log setiap pencetakan (tombol **Log Cetak** di footer).
-- Nomor/nama peserta lewat scanner barcode/QR (format `NOMOR|NAMA`).
-- Shortcut: `F1` Ambil Foto/Ulangi, `F2` Cetak, `Esc` Ulangi.
+capture.png
 
-## Yang perlu kamu sesuaikan sebelum dipakai di lapangan
+preview.png
 
-1. Cek `CIRCLE` di `app.js` cocok dengan template Dukcapil kamu.
-2. Set `PRINTER_NAME` di `electron/main.js`.
-3. Tes cetak dengan dialog biasa dulu, baru pindah ke `silentPrint()`.
-4. Kalau butuh data printer/kamera yang beneran real-time, siapkan SDK
-   Fargo dan minta saya bantu buat bridge-nya di Electron.
+print.png
+```
+
+Replace these placeholder images with actual application screenshots.
+
+---
+
+# License
+
+This project is intended for internal use within EFIS.
+
+Unauthorized distribution, modification, or commercial use without permission is prohibited.
+
+---
+
+<div align="center">
+
+Developed with Electron for Windows Kiosk Systems
+
+**EFIS Photo Kiosk**
+
+</div>
