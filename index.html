@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>E-FIS KIOSKID PRO — Foto Kartu CR80</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand"><span class="logo-box">◉</span> E-FIS KIOSKID <span class="pro">PRO</span></div>
+    <div class="status-pills">
+      <span class="pill ok" id="pillCamera">● Camera: Offline</span>
+      <span class="pill ok" id="pillPrinter">● Printer: Ready</span>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <!-- LEFT: camera + live template guide -->
+    <section class="camera-card">
+      <span class="badge-live">LIVE CAMERA 1080P</span>
+
+      <div class="camera-viewport" id="cameraViewport">
+        <video id="video" autoplay playsinline muted></video>
+
+        <div class="template-stage" id="templateStage">
+          <svg class="guide-svg" viewBox="0 0 679 1046" preserveAspectRatio="none">
+            <rect x="6" y="6" width="667" height="1034" rx="26" class="frame-line" />
+            <g class="corner-brackets">
+              <path d="M6 76 V32 A26 26 0 0 1 32 6 H76" />
+              <path d="M603 6 H647 A26 26 0 0 1 673 32 V76" />
+              <path d="M673 970 V1014 A26 26 0 0 1 647 1040 H603" />
+              <path d="M76 1040 H32 A26 26 0 0 1 6 1014 V970" />
+            </g>
+            <line x1="226.3" y1="6" x2="226.3" y2="1040" class="grid-line" />
+            <line x1="452.6" y1="6" x2="452.6" y2="1040" class="grid-line" />
+            <line x1="6" y1="356.7" x2="673" y2="356.7" class="grid-line" />
+            <line x1="6" y1="705.3" x2="673" y2="705.3" class="grid-line" />
+            <circle cx="350" cy="535" r="178" class="face-circle" />
+          </svg>
+          <div class="face-guide-label">POSISI WAJAH</div>
+          <div class="attendee-label">PESERTA / ATTENDEE</div>
+        </div>
+
+        <div id="countdown" class="countdown hidden">3</div>
+        <div id="flash" class="flash hidden"></div>
+      </div>
+    </section>
+
+    <!-- RIGHT: result preview + controls + printer status -->
+    <aside class="side-col">
+
+      <div class="preview-card">
+        <h3>PREVIEW HASIL KARTU (CR80)</h3>
+
+        <div class="result-box" id="resultBox">
+          <canvas id="cardCanvas" width="679" height="1046" class="hidden"></canvas>
+          <div class="placeholder" id="placeholder">
+            <div class="placeholder-icon">📷</div>
+            <div class="placeholder-title">HASIL KARTU</div>
+            <small>Tekan tombol Ambil Foto untuk melihat hasil cetak di sini</small>
+          </div>
+        </div>
+
+        <button id="btnCapture" class="btn-primary-lg">📷 AMBIL FOTO (3 Detik)</button>
+        <button id="btnPrint" class="btn-secondary-lg" disabled>🖨️ CETAK KARTU SEKARANG</button>
+      </div>
+
+      <div class="printer-card">
+        <div class="printer-head">
+          <span>STATUS PRINTER CR80</span>
+          <span class="pill ok small" id="printerReadyPill">READY</span>
+        </div>
+        <div class="ribbon-row">
+          <span>Ribbon Color:</span>
+          <span id="ribbonPct">82%</span>
+        </div>
+        <div class="ribbon-bar"><div class="ribbon-fill" id="ribbonFill" style="width:82%"></div></div>
+        <div class="printer-meta">
+          <span id="suhuMesin">Suhu Mesin: 34°C</span>
+          <span id="totalCetak">Total Cetak: 0 Kartu</span>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- TEMPLATE SELECTOR -->
+  <div class="template-row">
+    <span class="template-row-label">TEMPLATE KARTU:</span>
+    <div class="template-list" id="templateList">
+      <div class="template-item selected" data-src="assets/template.png">
+        <img src="assets/template.png" />
+        <div class="template-name">DUKCAPIL 2026<br><small>Resmi Kemendagri</small></div>
+      </div>
+      <label class="template-upload" for="uploadTemplate">
+        <div>⬆ UNGGAH TEMPLATE</div>
+        <small>Pilih file PNG...</small>
+        <input type="file" id="uploadTemplate" accept="image/png" hidden />
+      </label>
+    </div>
+  </div>
+
+  <footer class="footer-bar">
+    <span>VERSION 2.4.0 (STABLE)</span>
+    <span id="sessionId">SESSION: KIOSK-01-JKT</span>
+    <span class="footer-actions">
+      <button id="btnLog" class="link-btn">Log Cetak</button>
+      <button id="btnExit" class="link-btn">Keluar</button>
+      <span class="pill ok small">● HARDWARE BRIDGE READY</span>
+    </span>
+  </footer>
+
+  <!-- Log overlay -->
+  <div id="logOverlay" class="overlay hidden">
+    <div class="log-box">
+      <div class="log-head">
+        <h3>Log Pencetakan</h3>
+        <button id="btnCloseLog" class="link-btn">Tutup</button>
+      </div>
+      <table id="logTable">
+        <thead><tr><th>Waktu</th><th>No. Peserta</th><th>File</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="printArea"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

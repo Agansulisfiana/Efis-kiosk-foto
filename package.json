@@ -1,0 +1,12 @@
+{
+  "name": "photo-kiosk",
+  "version": "1.0.0",
+  "description": "Kiosk foto kartu CR80 untuk pencetakan via printer Fargo",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^31.0.0"
+  }
+}
